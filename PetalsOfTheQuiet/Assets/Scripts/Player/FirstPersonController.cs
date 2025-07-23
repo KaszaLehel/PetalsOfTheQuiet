@@ -158,9 +158,8 @@ public class FirstPersonController : MonoBehaviour
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
         Gizmos.DrawSphere(spherePosition, GroundedRadius);
         
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.red;
         Vector3 size = new Vector3(worldLimit * 2, 0.1f, worldLimit * 2);
         Gizmos.DrawWireCube(worldCenter, size);
     }
-
 }

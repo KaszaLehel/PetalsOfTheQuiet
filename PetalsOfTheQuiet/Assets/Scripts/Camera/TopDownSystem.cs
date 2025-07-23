@@ -9,6 +9,9 @@ public class TopDownSystem : MonoBehaviour
     [SerializeField] private float FoVMax = 60f;
     [SerializeField] private float FoVMin = 10f;
 
+    [SerializeField] private Vector3 minPosition = new Vector3(-50f, 0f, -50f);
+    [SerializeField] private Vector3 maxPosition = new Vector3(50f, 0f, 50f);
+
     private float targetFOV = 60f;
     float zoomSpeed = 10f;
 
@@ -33,6 +36,11 @@ public class TopDownSystem : MonoBehaviour
         Vector3 moveDir = transform.forward * inputDir.z + transform.right * inputDir.x;
 
         transform.position += moveDir * moveSpeed * Time.unscaledDeltaTime;
+
+        float clampedX = Mathf.Clamp(transform.position.x, minPosition.x, maxPosition.x);
+        float clampedZ = Mathf.Clamp(transform.position.z, minPosition.z, maxPosition.z);
+
+        transform.position = new Vector3(clampedX, transform.position.y, clampedZ);
     }
 
     void Rotation()
