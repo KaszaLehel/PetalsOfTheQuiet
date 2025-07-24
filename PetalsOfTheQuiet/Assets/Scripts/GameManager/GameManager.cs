@@ -21,15 +21,6 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-
-    public void ToggleCameraMode()
-    {
-        if (CurrentCameraMode == CameraMode.FPS)
-            SetCameraMode(CameraMode.TopDown);
-        else
-            SetCameraMode(CameraMode.FPS);
-    }
-
     public void SetCameraMode(CameraMode mode)
     {
         CurrentCameraMode = mode;

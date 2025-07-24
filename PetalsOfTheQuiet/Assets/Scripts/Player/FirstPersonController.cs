@@ -114,8 +114,8 @@ public class FirstPersonController : MonoBehaviour
 
     void CheckWorldBorder()
     {
-        Vector3 pos = transform.position;
-        if (Mathf.Abs(pos.x) > worldLimit || Mathf.Abs(pos.z) > worldLimit)
+        Vector3 position = transform.position;
+        if (Mathf.Abs(position.x) > worldLimit || Mathf.Abs(position.z) > worldLimit)
         {
             StartCoroutine(PushBackToCenter());
         }

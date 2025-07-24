@@ -29,12 +29,4 @@ public class CameraManager : MonoBehaviour
 
         GameManager.Instance.SetCameraMode(topDownActive ? GameManager.CameraMode.TopDown : GameManager.CameraMode.FPS);
     }
-
-    /*void SetCameraState(bool topDownActive)
-    {
-        secondaryTopDownCamera.gameObject.SetActive(topDownActive);
-        primaryFPSCamera.gameObject.SetActive(!topDownActive);
-    }*/
-
-
 }
