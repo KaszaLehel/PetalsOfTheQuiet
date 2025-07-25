@@ -5,21 +5,21 @@ using UnityEngine;
 public class FirstPersonController : MonoBehaviour
 {
     [Header("Player Movement")]
-    [SerializeField] private float MoveSpeed = 5f;
-    [SerializeField] private float SprintSpeed = 7f;
-    [SerializeField] private float RotationSpeed = 1f;
-    [SerializeField] private float JumpHeight = 0.5f;
-    [SerializeField] private float Gravity = -10f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float sprintSpeed = 7f;
+    [SerializeField] private float rotationSpeed = 1f;
+    [SerializeField] private float jumpHeight = 0.5f;
+    [SerializeField] private float gravity = -10f;
 
     [Header("Ground Check")]
-    [SerializeField] private float GroundedOffset = -0.14f;
+    [SerializeField] private float groundedOffset = -0.14f;
     [SerializeField] private float GroundedRadius = 0.5f;
     [SerializeField] private LayerMask GroundLayers;
 
     [Header("Camera")]
     [SerializeField] private Transform cameraTarget;
-    [SerializeField] private float TopClamp = 90f;
-    [SerializeField] private float BottomClamp = -90f;
+    [SerializeField] private float topClamp = 90f;
+    [SerializeField] private float bottomClamp = -90f;
 
     [Header("World Border Settings")]
     [SerializeField] private float worldLimit = 50f;
@@ -51,7 +51,7 @@ public class FirstPersonController : MonoBehaviour
     {
         if (GameManager.Instance.IsTopDown || isPushingBack) return;
 
-        GroundedCheck();
+        //GroundedCheck();
         HandleMovement();
         HandleJump();
         CheckWorldBorder();
@@ -64,15 +64,16 @@ public class FirstPersonController : MonoBehaviour
         HandleCamera();
     }
 
+/*
     void GroundedCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
         grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
     }
-
+*/
     void HandleMovement()
     {
-        float speed = Input.GetKey(KeyCode.LeftShift) ? SprintSpeed : MoveSpeed;
+        float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : moveSpeed;
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
@@ -80,7 +81,7 @@ public class FirstPersonController : MonoBehaviour
 
         if (verticalVelocity < terminalVelocity)//(!grounded)
         {
-            verticalVelocity += Gravity * Time.deltaTime;
+            verticalVelocity += gravity * Time.deltaTime;
         }
         else if (verticalVelocity < 0)
         {
@@ -94,19 +95,19 @@ public class FirstPersonController : MonoBehaviour
 
     void HandleJump()
     {
-        if (grounded && Input.GetKeyDown(KeyCode.Space))
+        if (controller.isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
     }
 
     void HandleCamera()
     {
-        float mouseX = Input.GetAxis("Mouse X") * RotationSpeed;
-        float mouseY = Input.GetAxis("Mouse Y") * RotationSpeed;
+        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+        float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
 
         pitch -= mouseY;
-        pitch = Mathf.Clamp(pitch, BottomClamp, TopClamp);
+        pitch = Mathf.Clamp(pitch, bottomClamp, topClamp);
 
         cameraTarget.localRotation = Quaternion.Euler(pitch, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
@@ -137,7 +138,7 @@ public class FirstPersonController : MonoBehaviour
             pitch = Mathf.Lerp(pitch, 0f, Time.deltaTime * lookResetSpeed);
             cameraTarget.localRotation = Quaternion.Euler(pitch, 0f, 0f);
 
-            verticalVelocity += Gravity * Time.deltaTime;
+            verticalVelocity += gravity * Time.deltaTime;
 
             Vector3 move = direction * pushBackSpeed;
             move.y = verticalVelocity;
@@ -155,7 +156,7 @@ public class FirstPersonController : MonoBehaviour
     {
         Color color = grounded ? new Color(0, 1, 0, 0.35f) : new Color(1, 0, 0, 0.35f);
         Gizmos.color = color;
-        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
         Gizmos.DrawSphere(spherePosition, GroundedRadius);
         
         Gizmos.color = Color.red;
