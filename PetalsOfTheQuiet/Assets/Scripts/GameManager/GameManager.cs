@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
         FPS,
         TopDown
     }
-
     public CameraMode CurrentCameraMode { get; private set; } = CameraMode.FPS;
 
     void Awake()

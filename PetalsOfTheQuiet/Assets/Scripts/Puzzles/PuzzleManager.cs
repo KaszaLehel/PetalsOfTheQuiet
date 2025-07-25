@@ -8,6 +8,8 @@ public class PuzzleManager : MonoBehaviour
 
     private Dictionary<string, bool> puzzleCompletion = new();
 
+    public bool allPuzzleCompleted = false;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -34,14 +36,27 @@ public class PuzzleManager : MonoBehaviour
             Debug.Log("Its Already Exists");
         }
 
+        if (puzzleCompletion.Count == 3 && AllPuzzlesAreCompleted())
+        {
+            allPuzzleCompleted = true;
+            Debug.Log("All puzzles completed!");
+        }
+
+        //Csak ellenőrzés listázás hogy melyik van benn.
         foreach (var kvp in puzzleCompletion)
         {
             Debug.Log($"Puzzle ID: {kvp.Key}, Completed: {kvp.Value}");
         }
     }
 
-    public bool isPuzzleCompleted(string id)
+
+
+    private bool AllPuzzlesAreCompleted()
     {
-        return puzzleCompletion.TryGetValue(id, out bool complete) && complete;
+        foreach (var kvp in puzzleCompletion)
+        {
+            if (!kvp.Value) return false;
+        }
+        return true;
     }
 }
