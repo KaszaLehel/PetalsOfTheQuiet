@@ -79,7 +79,7 @@ public class FirstPersonController : MonoBehaviour
 
         Vector3 move = transform.right * h + transform.forward * v;
 
-        if (verticalVelocity < terminalVelocity)//(!grounded)
+        if (verticalVelocity < terminalVelocity)//(!grounded) -> ezzel nem jol mukodik.
         {
             verticalVelocity += gravity * Time.deltaTime;
         }
@@ -154,7 +154,7 @@ public class FirstPersonController : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Color color = grounded ? new Color(0, 1, 0, 0.35f) : new Color(1, 0, 0, 0.35f);
+        Color color = grounded ? new Color(0, 1, 0, 1f) : new Color(1, 0, 0, 1f);
         Gizmos.color = color;
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
         Gizmos.DrawSphere(spherePosition, GroundedRadius);

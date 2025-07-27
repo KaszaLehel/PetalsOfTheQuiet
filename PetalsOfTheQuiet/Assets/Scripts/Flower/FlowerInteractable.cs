@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class FlowerInteractable : MonoBehaviour, IInteractable
 {
+    [Header("ID SEttings")]
+    [SerializeField] private int ID;
     [SerializeField] private GameObject indicatorE;
 
     void Start()
     {
+        GameManager.Instance.RegisterFlower(ID);
         indicatorE.SetActive(false);
     }
 
@@ -26,6 +29,7 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
     //Amikor rá van nézve és megnyomja az Interact(E) betűt
     public void OnInteract()
     {
+        GameManager.Instance.MarkFlowerPicked(ID);
         Destroy(gameObject);
     }
 }
