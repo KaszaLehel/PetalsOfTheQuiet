@@ -3,6 +3,7 @@ using UnityEngine;
 public class LaserInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject indicatorE;
+    [SerializeField] private AudioClip metalClickFX;
     private int rotationStep = 45;
     private int currentStep = 0;
     
@@ -24,6 +25,7 @@ public class LaserInteract : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
+        SoundEffectManager.Instance.PlaySoundFX(metalClickFX, transform, 1f);
         currentStep = (currentStep + 1) % 8;
         transform.rotation = Quaternion.Euler(0f, currentStep * rotationStep, 0f);
     }

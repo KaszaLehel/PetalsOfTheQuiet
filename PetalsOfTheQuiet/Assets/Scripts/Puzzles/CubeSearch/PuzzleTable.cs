@@ -6,6 +6,7 @@ public class PuzzleTable : MonoBehaviour
     [SerializeField] private string expectedCubeID;
 
     [SerializeField] private GameObject expectedCube;
+    [SerializeField] private AudioClip metalSoundFX;
     private FirstPuzzle parentPuzzle;
     private bool isCorrectlyFilled = false;
 
@@ -19,6 +20,7 @@ public class PuzzleTable : MonoBehaviour
         if (collision.gameObject == expectedCube)
         {
             isCorrectlyFilled = true;
+            SoundEffectManager.Instance.PlaySoundFX(metalSoundFX, transform, 1f);
             parentPuzzle.CheckSolved();
         }
     }
