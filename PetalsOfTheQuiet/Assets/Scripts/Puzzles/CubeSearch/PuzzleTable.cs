@@ -20,8 +20,10 @@ public class PuzzleTable : MonoBehaviour
         if (collision.gameObject == expectedCube)
         {
             isCorrectlyFilled = true;
-            SoundEffectManager.Instance.PlaySoundFX(metalSoundFX, transform, 1f);
             parentPuzzle.CheckSolved();
+
+            if(GameManager.Instance.isSoundOn)
+                SoundEffectManager.Instance.PlaySoundFX(metalSoundFX, transform, 1f);
         }
     }
 

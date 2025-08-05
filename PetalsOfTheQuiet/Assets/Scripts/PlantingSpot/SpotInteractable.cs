@@ -28,6 +28,8 @@ public class SpotInteractable : MonoBehaviour, IInteractable
     //Amikor rá van nézve és megnyomja az Interact(E) betűt
     public void OnInteract()
     {
+        //GameManager.Instance.isEndingMoment = true;
+        GameManager.Instance.TriggerEnding();
         Debug.Log("Elultetve es vege a jateknak");
 
     }

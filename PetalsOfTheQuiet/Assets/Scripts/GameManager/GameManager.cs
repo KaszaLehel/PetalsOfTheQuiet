@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,7 +8,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject plantingSpot;
     public static GameManager Instance { get; private set; }
     public Dictionary<int, bool> flowerStates = new();
-    
+    public bool isEndingMoment = false;
+    public bool isSoundOn = false;
+
+    public static event Action OnFlowerPicked;
+    public static event Action OnEndingTriggered;
 
     public enum CameraMode
     {
@@ -40,6 +45,8 @@ public class GameManager : MonoBehaviour
         if (flowerStates.ContainsKey(id))
             flowerStates[id] = true;
 
+        OnFlowerPicked?.Invoke();
+
         if (flowerStates.Count == 4 && flowerStates.Values.All(state => state))
         {
             plantingSpot.SetActive(true);
@@ -56,6 +63,15 @@ public class GameManager : MonoBehaviour
 
     public bool IsFPS => CurrentCameraMode == CameraMode.FPS;
     public bool IsTopDown => CurrentCameraMode == CameraMode.TopDown;
-    
+
     #endregion
+    
+
+    public void TriggerEnding()
+    {
+        if (isEndingMoment) return;
+
+        isEndingMoment = true;
+        OnEndingTriggered?.Invoke();
+    }
 }

@@ -5,6 +5,7 @@ public class PicturePuzzle : MonoBehaviour
     [Header("Puzzle Settings")]
     [SerializeField] private string puzzleID;
     [SerializeField] private GameObject flowerToActivate;
+    [SerializeField] private AudioClip stonePickupFX; 
     private bool isSolved = false;
 
     void Start()
@@ -14,11 +15,15 @@ public class PicturePuzzle : MonoBehaviour
 
     public void OnPictureInteracted(GameObject pictureObject)
     {
-        if (isSolved) return;
+        if (isSolved || pictureObject == null) return;
 
-        GoodImage goodImage = pictureObject.GetComponent<GoodImage>();
+        if (!pictureObject.TryGetComponent(out GoodImage goodImage)) return;
 
-        if (goodImage == null) return;
+        //GoodImage goodImage = pictureObject.GetComponent<GoodImage>();
+        //if (goodImage == null) return;
+
+        if(GameManager.Instance.isSoundOn)
+            SoundEffectManager.Instance.PlaySoundFX(stonePickupFX, transform, 1f);
 
         pictureObject.SetActive(false);
 

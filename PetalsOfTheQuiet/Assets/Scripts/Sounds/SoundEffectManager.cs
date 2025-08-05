@@ -31,8 +31,9 @@ public class SoundEffectManager : MonoBehaviour
 
     }
 
-    public void PlaySoundFXWithDelay(AudioClip audioClip, Transform position, float volume, float delay)
+    public void PlaySoundFXWithDelay(AudioClip audioClip, Transform position, float volume, float delay, GameObject[] ambeintSounds)
     {
+        ActivateAmbient(ambeintSounds);
         StartCoroutine(PlaySoundFXTimer(audioClip, position, volume, delay));
     }
 
@@ -51,5 +52,14 @@ public class SoundEffectManager : MonoBehaviour
         float clipLength = audioSource.clip.length;
 
         Destroy(audioSource.gameObject, clipLength);
+    }
+
+    private void ActivateAmbient(GameObject[] ambientSounds)
+    {
+        foreach (GameObject ambient in ambientSounds)
+        {
+            ambient.SetActive(true);
+            Debug.Log(ambient.name);
+        }
     }
 }

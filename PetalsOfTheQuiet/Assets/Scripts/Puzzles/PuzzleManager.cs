@@ -33,19 +33,19 @@ public class PuzzleManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Its Already Exists");
+            Debug.Log("Its Already Exist");
         }
 
         if (puzzleCompletion.Count == 3 && AllPuzzlesAreCompleted())
         {
             allPuzzleCompleted = true;
-            Debug.Log("All puzzles completed!");
+            Debug.Log("All puzzle is completed!");
         }
 
-        //Csak ellenőrzés listázás hogy melyik van benn.
+        //Csak ellenőrzés listázás hogy melyik van benne.
         foreach (var kvp in puzzleCompletion)
         {
-            Debug.Log($"Puzzle ID: {kvp.Key}, Completed: {kvp.Value}");
+            Debug.Log($"ID: {kvp.Key}, Completed: {kvp.Value}");
         }
     }
 

@@ -29,12 +29,19 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float lookResetSpeed = 2f;
     [SerializeField] private Vector3 worldCenter = Vector3.zero;
 
+    [Header("Ending Scene Settings")]
+    [SerializeField] private Transform endingViewTarget;
+    [SerializeField] private float endingMoveSpeed = 2f;
+    [SerializeField] private float endingRotateSpeed = 1.5f;
+    [SerializeField] private float cameraLookSpeed = 2f;
+
     private CharacterController controller;
     private float verticalVelocity;
     private float terminalVelocity = 53f;
     private bool grounded;
     private float pitch;
-    bool isPushingBack = false;
+    private bool isPushingBack = false;
+    private bool isEndingViewStarted = false;
 
     void Awake()
     {
@@ -47,9 +54,19 @@ public class FirstPersonController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    void OnEnable()
+    {
+        GameManager.OnEndingTriggered += HandleEndingTriggered;
+    }
+
+    void OnDisable()
+    {
+        GameManager.OnEndingTriggered -= HandleEndingTriggered;
+    }
+
     void Update()
     {
-        if (GameManager.Instance.IsTopDown || isPushingBack) return;
+        if (GameManager.Instance.IsTopDown || isPushingBack || GameManager.Instance.isEndingMoment) return;
 
         //GroundedCheck();
         HandleMovement();
@@ -59,18 +76,11 @@ public class FirstPersonController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (GameManager.Instance.IsTopDown || isPushingBack) return;
+        if (GameManager.Instance.IsTopDown || isPushingBack || GameManager.Instance.isEndingMoment) return;
 
         HandleCamera();
     }
 
-/*
-    void GroundedCheck()
-    {
-        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
-        grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
-    }
-*/
     void HandleMovement()
     {
         float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : moveSpeed;
@@ -122,6 +132,15 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
+    private void HandleEndingTriggered()
+    {
+        if (!isEndingViewStarted)
+        {
+            StartCoroutine(EndingView());
+            isEndingViewStarted = true;
+        }
+    }
+
     IEnumerator PushBackToCenter()
     {
         isPushingBack = true;
@@ -150,6 +169,49 @@ public class FirstPersonController : MonoBehaviour
         }
 
         isPushingBack = false;
+    }
+
+    IEnumerator EndingView()
+    {
+        verticalVelocity = 0f;
+
+        float distanceThreshold = 0.1f;
+        bool reachedTarget = false;
+
+        //Vector3 worldLookTarget = GameManager.Instance.worldCenter;
+
+        while (!reachedTarget)
+        {
+            // Mozgás a cél pozíció felé
+            Vector3 toTarget = endingViewTarget.position - transform.position;
+            Vector3 horizontalMove = new Vector3(toTarget.x, 0, toTarget.z);
+            Vector3 move = horizontalMove.normalized * endingMoveSpeed;
+
+            controller.Move(move * Time.deltaTime);
+
+            // Forgatás a világ középpontja felé (nem a célra!)
+            Vector3 lookDir = worldCenter - transform.position;
+            lookDir.y = 0;
+            if (lookDir.sqrMagnitude > 0.01f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * endingRotateSpeed);
+            }
+
+            // Kamera nézzen lefelé, hogy világra nézzen
+            pitch = Mathf.Lerp(pitch, 0f, Time.deltaTime * cameraLookSpeed);
+            cameraTarget.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+
+            // Érkezés vizsgálata
+            if (horizontalMove.magnitude < distanceThreshold)
+            {
+                reachedTarget = true;
+            }
+
+            yield return null;
+        }
+
+        Debug.Log("EndingView elérve, most jöhet zene, UI, fade, stb.");
     }
 
     void OnDrawGizmos()

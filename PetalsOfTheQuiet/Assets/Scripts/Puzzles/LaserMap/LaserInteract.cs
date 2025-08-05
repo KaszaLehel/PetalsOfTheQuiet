@@ -25,7 +25,9 @@ public class LaserInteract : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        SoundEffectManager.Instance.PlaySoundFX(metalClickFX, transform, 1f);
+        if(GameManager.Instance.isSoundOn)
+            SoundEffectManager.Instance.PlaySoundFX(metalClickFX, transform, 1f);
+            
         currentStep = (currentStep + 1) % 8;
         transform.rotation = Quaternion.Euler(0f, currentStep * rotationStep, 0f);
     }
