@@ -12,6 +12,11 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
     [Header("Ambient Sound Settings")]
     [SerializeField] private GameObject[] ambientSounds;
 
+    [Header("Animation Settings")]
+    [SerializeField] private Animator animator;
+
+    private bool active = false;
+
     void Start()
     {
         GameManager.Instance.RegisterFlower(ID);
@@ -28,6 +33,8 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
     //Amikor ránéz az interactable gameObjectre
     public void OnFocusEnter()
     {
+        if (active) return;
+
         if (indicatorE != null)
             indicatorE.SetActive(true);
     }
@@ -35,6 +42,8 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
     //AMikor lenéz az interactable gameObjectről
     public void OnFocusExit()
     {
+        if (active) return;
+        
         if (indicatorE != null)
             indicatorE.SetActive(false);
     }
@@ -42,6 +51,11 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
     //Amikor rá van nézve és megnyomja az Interact(E) betűt
     public void OnInteract()
     {
+        if (active) return;
+
+        active = true;
+        indicatorE.SetActive(false);
+
         GameManager.Instance.MarkFlowerPicked(ID);
 
         //if (ID != 0)
@@ -59,6 +73,11 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
             else
                 Debug.LogWarning("No flowerMusic on this Object");
 
-        Destroy(gameObject);
+        if (animator != null)
+        {
+            animator.SetTrigger("Dead");
+        }
+
+        Destroy(gameObject, 4.3f);
     }
 }

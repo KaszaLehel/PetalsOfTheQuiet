@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 33258481a8f1e714b9a233ce743367f4
+AssetOrigin:
+  serializedVersion: 1
+  productId: 325074
+  packageName: 'DEMO: Low Poly Flower Pack'
+  packageVersion: 1.0
+  assetPath: Assets/Emilulz_Assets/DEMOLowPolyFlowers/Assets/SM_Rose_Red_Open.fbx
+  uploadId: 770978
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -30,7 +37,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -105,10 +112,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 325074
-  packageName: 'DEMO: Low Poly Flower Pack'
-  packageVersion: 1.0
-  assetPath: Assets/Emilulz_Assets/DEMOLowPolyFlowers/Assets/SM_Rose_Red_Open.fbx
-  uploadId: 770978
