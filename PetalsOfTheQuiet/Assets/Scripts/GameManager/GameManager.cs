@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject plantingSpot;
+    [SerializeField] GameObject VFXPrefab;
     public static GameManager Instance { get; private set; }
     public Dictionary<int, bool> flowerStates = new();
     public bool isEndingMoment = false;
@@ -49,7 +50,18 @@ public class GameManager : MonoBehaviour
 
         if (flowerStates.Count == 4 && flowerStates.Values.All(state => state))
         {
+            //Itt nyitom meg a Planting Spotot.
             plantingSpot.SetActive(true);
+
+            if (VFXPrefab != null)
+            {
+                Instantiate(VFXPrefab, plantingSpot.transform.position, plantingSpot.transform.rotation);
+            }
+            else
+            {
+                Debug.LogWarning("Nincs beállítva VFX prefab!");
+            }
+
             Debug.Log("Minden virag megvan, ultetes aktivalva.");
         }
     }

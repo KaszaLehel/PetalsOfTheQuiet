@@ -15,6 +15,10 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
     [Header("Animation Settings")]
     [SerializeField] private Animator animator;
 
+    [Header("Light Settings")]
+    [SerializeField] private Light pointLight;
+    [SerializeField] private float lightFadeDuration = 4f;
+
     private bool active = false;
 
     void Start()
@@ -43,7 +47,7 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
     public void OnFocusExit()
     {
         if (active) return;
-        
+
         if (indicatorE != null)
             indicatorE.SetActive(false);
     }
@@ -56,28 +60,45 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
         active = true;
         indicatorE.SetActive(false);
 
-        GameManager.Instance.MarkFlowerPicked(ID);
+        StartCoroutine(FadeLight());
 
-        //if (ID != 0)
-        //SoundEffectManager.Instance.PlaySoundFX(pickupSoundFX, transform, 1f);
+        GameManager.Instance.MarkFlowerPicked(ID);
 
         if (ID == 0)
         {
             GameManager.Instance.isSoundOn = true;
             Debug.Log($"The flower: {ID} -> was activated the soundFX-es in the GameManager.");
         }
-           
 
         if (flowerMusic != null)
-                SoundEffectManager.Instance.PlaySoundFXWithDelay(flowerMusic, transform, 1f, 2f, ambientSounds);
-            else
-                Debug.LogWarning("No flowerMusic on this Object");
+            SoundEffectManager.Instance.PlaySoundFXWithDelay(flowerMusic, transform, 1f, 2f, ambientSounds);
+        else
+            Debug.LogWarning("No flowerMusic on this Object");
 
         if (animator != null)
         {
             animator.SetTrigger("Dead");
         }
 
-        Destroy(gameObject, 4.3f);
+        Destroy(gameObject, 10f);
+    }
+
+
+    private IEnumerator FadeLight()
+    {
+        float intensity = pointLight.intensity;
+        float elapsed = 0f;
+
+        while (elapsed < lightFadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / lightFadeDuration;
+
+            pointLight.intensity = Mathf.Lerp(intensity, 0f, t);
+
+            yield return null;
+        }
+
+        pointLight.intensity = 0f;
     }
 }
