@@ -1,14 +1,18 @@
+using System.Collections;
 using UnityEngine;
 
 public class SpotInteractable : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject indicatorE;
+    [SerializeField] private AudioClip endingMusic;
 
+    private float endMusicLength;
 
     void Start()
     {
         gameObject.SetActive(false);
         indicatorE.SetActive(false);
+        endMusicLength = endingMusic.length;
     }
 
     //Amikor ránéz az interactable gameObjectre
@@ -28,9 +32,10 @@ public class SpotInteractable : MonoBehaviour, IInteractable
     //Amikor rá van nézve és megnyomja az Interact(E) betűt
     public void OnInteract()
     {
-        //GameManager.Instance.isEndingMoment = true;
-        GameManager.Instance.TriggerEnding();
-        Debug.Log("Elultetve es vege a jateknak");
+        GameManager.Instance.TriggerEnding(endMusicLength);
+        SoundEffectManager.Instance.PlaySoundFXWithDelay(endingMusic, transform, 1f, 2f, null, true);
 
+        
+        //StartCoroutine(EndingSound());
     }
 }

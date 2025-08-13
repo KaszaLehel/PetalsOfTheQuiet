@@ -20,7 +20,7 @@ public class PuzzleManager : MonoBehaviour
         {
             Instance = this;
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     public void PuzzleComplete(string id)

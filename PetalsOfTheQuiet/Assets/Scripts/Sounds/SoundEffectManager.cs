@@ -14,7 +14,7 @@ public class SoundEffectManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
 
@@ -31,19 +31,22 @@ public class SoundEffectManager : MonoBehaviour
 
     }
 
-    public void PlaySoundFXWithDelay(AudioClip audioClip, Transform position, float volume, float delay, GameObject[] ambeintSounds)
+    public void PlaySoundFXWithDelay(AudioClip audioClip, Transform position, float volume, float delay, GameObject[] ambeintSounds = null, bool is2D = false)
     {
-        ActivateAmbient(ambeintSounds);
-        StartCoroutine(PlaySoundFXTimer(audioClip, position, volume, delay));
+        if(ambeintSounds != null)
+            ActivateAmbient(ambeintSounds);
+
+        StartCoroutine(PlaySoundFXTimer(audioClip, position, volume, delay, is2D));
     }
 
 
-    private IEnumerator PlaySoundFXTimer(AudioClip audioClip, Transform transform, float volume, float delay)
+    private IEnumerator PlaySoundFXTimer(AudioClip audioClip, Transform transform, float volume, float delay, bool is2D)
     {
         AudioSource audioSource = Instantiate(soundObject, transform.position, Quaternion.identity);
 
         audioSource.clip = audioClip;
         audioSource.volume = volume;
+        audioSource.spatialBlend = is2D ? 0f : 1f;
 
         yield return new WaitForSeconds(delay);
 

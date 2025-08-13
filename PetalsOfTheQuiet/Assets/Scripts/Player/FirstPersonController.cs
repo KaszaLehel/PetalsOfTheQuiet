@@ -178,18 +178,14 @@ public class FirstPersonController : MonoBehaviour
         float distanceThreshold = 0.1f;
         bool reachedTarget = false;
 
-        //Vector3 worldLookTarget = GameManager.Instance.worldCenter;
-
         while (!reachedTarget)
         {
-            // Mozgás a cél pozíció felé
             Vector3 toTarget = endingViewTarget.position - transform.position;
             Vector3 horizontalMove = new Vector3(toTarget.x, 0, toTarget.z);
             Vector3 move = horizontalMove.normalized * endingMoveSpeed;
 
             controller.Move(move * Time.deltaTime);
 
-            // Forgatás a világ középpontja felé (nem a célra!)
             Vector3 lookDir = worldCenter - transform.position;
             lookDir.y = 0;
             if (lookDir.sqrMagnitude > 0.01f)
@@ -198,11 +194,9 @@ public class FirstPersonController : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * endingRotateSpeed);
             }
 
-            // Kamera nézzen lefelé, hogy világra nézzen
             pitch = Mathf.Lerp(pitch, 0f, Time.deltaTime * cameraLookSpeed);
             cameraTarget.localRotation = Quaternion.Euler(pitch, 0f, 0f);
 
-            // Érkezés vizsgálata
             if (horizontalMove.magnitude < distanceThreshold)
             {
                 reachedTarget = true;
