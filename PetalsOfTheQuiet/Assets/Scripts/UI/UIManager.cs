@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
     }
     void Update()
     {
+        if (TransitionController.Instance.isTransition) return;
+        
         if (Input.GetKeyDown(KeyCode.Escape) && !GameManager.Instance.isEndingMoment)
         {
             if (!IsPaused)

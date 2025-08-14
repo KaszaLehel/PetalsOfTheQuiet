@@ -72,7 +72,7 @@ VisualEffect:
       m_Array: []
     m_NamedObject:
       m_Array:
-      - m_Value: {fileID: 11700000, guid: 4e01c9cbe46df094aabc60562ee6416c, type: 2}
+      - m_Value: {fileID: 11700000, guid: 55b71f198b5d25841b4c9d19b5cc8d4c, type: 2}
         m_Name: SDF
         m_Overridden: 1
     m_Bool:

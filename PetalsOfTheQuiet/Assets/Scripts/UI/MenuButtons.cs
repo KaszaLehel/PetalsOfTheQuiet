@@ -5,9 +5,10 @@ public class MenuButtons : MonoBehaviour
 {
     public void Play()
     {
+        if (TransitionController.Instance.isTransition) return;
+
         Debug.Log("Play Game");
         TransitionController.Instance.NextScene("Main");
-
         //SceneManager.LoadSceneAsync("Main");
     }
 

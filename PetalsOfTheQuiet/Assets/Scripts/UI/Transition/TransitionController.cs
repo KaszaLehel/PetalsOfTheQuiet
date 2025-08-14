@@ -8,6 +8,8 @@ public class TransitionController : MonoBehaviour
     [SerializeField] private Animator transitionAnimator;
     [SerializeField] private GameObject canvas;
 
+    public bool isTransition = false;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -27,12 +29,13 @@ public class TransitionController : MonoBehaviour
 
     public void NextScene(string sceneName)
     {
+        isTransition = true;
         canvas.SetActive(true);
         StartCoroutine(LevelChange(sceneName));
         //SceneManager.LoadSceneAsync(index);
     }
 
-    IEnumerator LevelChange(string name )
+    IEnumerator LevelChange(string name)
     {
         transitionAnimator.SetTrigger("End");
         yield return new WaitForSeconds(1);
@@ -40,6 +43,6 @@ public class TransitionController : MonoBehaviour
         transitionAnimator.SetTrigger("Start");
         yield return new WaitForSeconds(2);
         canvas.SetActive(false);
-
+        isTransition = false;
     }
 }
