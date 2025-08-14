@@ -9374,7 +9374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicatorE: {fileID: 1466253214}
-  endingMusic: {fileID: 8300000, guid: 603b7c5f32557e348a00cedf34726389, type: 3}
+  endingMusic: {fileID: 8300000, guid: 06b54cfa9c2eded488927009ed4866e6, type: 3}
 --- !u!1 &969690081
 GameObject:
   m_ObjectHideFlags: 0
