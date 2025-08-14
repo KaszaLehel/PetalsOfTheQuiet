@@ -51,7 +51,8 @@ public class FirstPersonController : MonoBehaviour
     void Start()
     {
         //controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
+
+        Cursor.lockState = CursorLockMode.Locked; //MOUSE LOCKED
     }
 
     void OnEnable()

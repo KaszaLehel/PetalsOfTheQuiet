@@ -1,19 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] Button settingsButton;
 
-    public void Play()
-    {
-        Debug.Log("Play Game");
-        //SceneManager.LoadScene("Main");
-        SceneManager.LoadSceneAsync("Main");
-    }
 
-    public void Quit()
+    void Start()
     {
-        Debug.Log("Quit Game");
-        Application.Quit();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        
+        settingsButton.interactable = false;
     }
 }

@@ -105,15 +105,13 @@ public class GameManager : MonoBehaviour
         OnEndingTriggered?.Invoke();
 
         StartCoroutine(EndingSequence(waitTime));
-
         StartCoroutine(LoadSceneAfterMusic(endMusicLength));
     }
 
     private IEnumerator LoadSceneAfterMusic(float delay)
     {
         yield return new WaitForSeconds(delay);
-
-        SceneManager.LoadSceneAsync("Menu");
+        TransitionController.Instance.NextScene("Menu");
     }
 
 
