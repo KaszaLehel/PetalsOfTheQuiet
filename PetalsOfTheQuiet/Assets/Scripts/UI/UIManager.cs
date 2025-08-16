@@ -38,6 +38,7 @@ public class UIManager : MonoBehaviour
 
         PausePanel.SetActive(true);
         IsPaused = true;
+        GameManager.Instance.isGamePaused = true;
         Time.timeScale = 0;
     }
 
@@ -48,12 +49,14 @@ public class UIManager : MonoBehaviour
 
         PausePanel.SetActive(false);
         IsPaused = false;
+        GameManager.Instance.isGamePaused = false;
         Time.timeScale = 1;
     }
 
     void UnpauseExit()
     {
         IsPaused = false;
+        GameManager.Instance.isGamePaused = false;
         Time.timeScale = 1;
     }
 

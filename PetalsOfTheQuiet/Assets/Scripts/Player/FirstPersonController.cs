@@ -75,7 +75,7 @@ public class FirstPersonController : MonoBehaviour
     void LateUpdate()
     {
         if (GameManager.Instance.IsTopDown || isPushingBack || GameManager.Instance.isEndingMoment) return;
-
+        if (GameManager.Instance.isGamePaused) return;
         HandleCamera();
     }
 

@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public bool isEndingMoment = false;
     public bool isSoundOn = false;
 
+    public bool isGamePaused = false;
+
     public static event Action OnFlowerPicked;
     public static event Action OnEndingTriggered;
 
