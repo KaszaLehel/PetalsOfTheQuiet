@@ -3,22 +3,17 @@ using UnityEngine;
 
 public class FireFlyInteractable : MonoBehaviour, IInteractable
 {
+    [Header("GameObject Settings")]
     [SerializeField] private GameObject indicatorE;
     [SerializeField] private AudioClip story;
-
     [SerializeField] private ParticleSystem ps;
+
     private bool isFading = false;
     private bool active = false;
 
     void Start()
     {
         indicatorE.SetActive(false);
-
-        //ps = GetComponent<ParticleSystem>();
-        //if (ps == null)
-        //{
-           //Debug.LogError("Nincs Particlesystem komponens ezen az objektumon");
-        //}
     }
 
     public void OnFocusEnter()
@@ -67,10 +62,12 @@ public class FireFlyInteractable : MonoBehaviour, IInteractable
     {
         if (ps == null || isFading)
             return;
-        //Debug.Log("Fading PS");
+
         isFading = true;
 
-        var emission = ps.emission;
+        //var emission = ps.emission; 
+        ParticleSystem.EmissionModule emission = ps.emission;
+
         emission.enabled = false;
     }
 }

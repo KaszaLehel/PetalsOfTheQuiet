@@ -19,9 +19,6 @@ public class PicturePuzzle : MonoBehaviour
 
         if (!pictureObject.TryGetComponent(out GoodImage goodImage)) return;
 
-        //GoodImage goodImage = pictureObject.GetComponent<GoodImage>();
-        //if (goodImage == null) return;
-
         if(GameManager.Instance.isSoundOn)
             SoundEffectManager.Instance.PlaySoundFX(stonePickupFX, transform, 1f);
 

@@ -24,13 +24,17 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
     void Start()
     {
         GameManager.Instance.RegisterFlower(ID);
+
         indicatorE.SetActive(false);
 
-        if (ambientSounds == null) return;
+        //if (ambientSounds == null) return;
 
-        foreach (GameObject ambient in ambientSounds)
+        if (ambientSounds != null)
         {
-            ambient.SetActive(false);
+            foreach (GameObject ambient in ambientSounds)
+            {
+                ambient.SetActive(false);
+            }
         }
     }
 
@@ -60,20 +64,23 @@ public class FlowerInteractable : MonoBehaviour, IInteractable
         active = true;
         indicatorE.SetActive(false);
 
-        StartCoroutine(FadeLight());
+        if (pointLight != null)
+        {
+            StartCoroutine(FadeLight());
+        }
 
         GameManager.Instance.MarkFlowerPicked(ID);
 
         if (ID == 0)
         {
             GameManager.Instance.isSoundOn = true;
-            Debug.Log($"The flower: {ID} -> was activated the soundFX-es in the GameManager.");
+            //Debug.Log($"The flower: {ID} -> was activated the soundFX-es in the GameManager.");
         }
 
         if (flowerMusic != null)
             SoundEffectManager.Instance.PlaySoundFXWithDelay(flowerMusic, transform, 1f, 2f, ambientSounds);
         else
-            Debug.LogWarning("No flowerMusic on this Object");
+            Debug.LogWarning("No flowerMusic on this OBject");
 
         if (animator != null)
         {

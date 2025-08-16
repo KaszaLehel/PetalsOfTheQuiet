@@ -10,7 +10,7 @@ public class FallOutRespawn : MonoBehaviour
     [SerializeField] private float worldEdgeLimit = 45f;
     [SerializeField] private float returnForce = 10f;
 
-     private Rigidbody rb;
+    private Rigidbody rb;
     private static readonly Vector3 center = Vector3.zero;  
 
      void Awake()
@@ -28,15 +28,15 @@ public class FallOutRespawn : MonoBehaviour
 
     private void Respawn()
     {
-        Vector3 baseXZ = new Vector3(
+        Vector3 baseXY = new Vector3(
             Mathf.Clamp(transform.position.x, -worldEdgeLimit, worldEdgeLimit),
             rayStartHeight,
             Mathf.Clamp(transform.position.z, -worldEdgeLimit, worldEdgeLimit)
         );
 
-        Vector3 targetPosition = baseXZ;
+        Vector3 targetPosition = baseXY;
 
-        if (Physics.Raycast(baseXZ, Vector3.down, out RaycastHit hit, rayDistance))
+        if (Physics.Raycast(baseXY, Vector3.down, out RaycastHit hit, rayDistance))
         {
             targetPosition.y = hit.point.y + heightOffset;
         }
@@ -51,6 +51,6 @@ public class FallOutRespawn : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
 
         Vector3 arcDirection = (center - transform.position + Vector3.up).normalized;
-        rb.AddForce(arcDirection * returnForce, ForceMode.VelocityChange);
+        rb.AddForce(arcDirection * returnForce, ForceMode.Impulse); //ForceMode.VelocityChange
     }
 }

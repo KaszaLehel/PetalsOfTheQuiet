@@ -3,7 +3,6 @@ using UnityEngine;
 public class ImageInteractable : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject indicatorE;
-    //private PicturePuzzle picturePuzzle;
     [SerializeField] private PicturePuzzle picturePuzzle;
 
 
@@ -29,7 +28,6 @@ public class ImageInteractable : MonoBehaviour, IInteractable
     //Amikor rá van nézve és megnyomja az Interact(E) betűt
     public void OnInteract()
     {
-        picturePuzzle?.OnPictureInteracted(this.gameObject);
-        //Destroy(gameObject);
+        picturePuzzle?.OnPictureInteracted(gameObject);
     }
 }

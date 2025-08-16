@@ -13,8 +13,8 @@ public class FirstPersonController : MonoBehaviour
 
     [Header("Ground Check")]
     [SerializeField] private float groundedOffset = -0.14f;
-    [SerializeField] private float GroundedRadius = 0.5f;
-    [SerializeField] private LayerMask GroundLayers;
+    [SerializeField] private float GroundedRadius = 0.3f;
+    //[SerializeField] private LayerMask GroundLayers;
 
     [Header("Camera")]
     [SerializeField] private Transform cameraTarget;
@@ -50,8 +50,6 @@ public class FirstPersonController : MonoBehaviour
 
     void Start()
     {
-        //controller = GetComponent<CharacterController>();
-
         Cursor.lockState = CursorLockMode.Locked; //MOUSE LOCKED
     }
 
@@ -69,7 +67,6 @@ public class FirstPersonController : MonoBehaviour
     {
         if (GameManager.Instance.IsTopDown || isPushingBack || GameManager.Instance.isEndingMoment) return;
 
-        //GroundedCheck();
         HandleMovement();
         HandleJump();
         CheckWorldBorder();
@@ -85,18 +82,18 @@ public class FirstPersonController : MonoBehaviour
     void HandleMovement()
     {
         float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : moveSpeed;
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * h + transform.forward * v;
+        Vector3 move = transform.right * horizontal + transform.forward * vertical;
 
-        if (verticalVelocity < terminalVelocity)//(!grounded) -> ezzel nem jol mukodik.
+        if (verticalVelocity < terminalVelocity)    //(!grounded) -> ezzel nem jol mukodik.
         {
             verticalVelocity += gravity * Time.deltaTime;
         }
         else if (verticalVelocity < 0)
         {
-            verticalVelocity = -2f;
+            verticalVelocity = -2f;     //Ha 0 akkor olyan mintha lebegne -> kell a negativ ertek
         }
 
         move.y = verticalVelocity;
@@ -137,8 +134,8 @@ public class FirstPersonController : MonoBehaviour
     {
         if (!isEndingViewStarted)
         {
-            StartCoroutine(EndingView());
             isEndingViewStarted = true;
+            StartCoroutine(EndingView());
         }
     }
 
@@ -205,19 +202,17 @@ public class FirstPersonController : MonoBehaviour
 
             yield return null;
         }
-
-        Debug.Log("EndingView elérve, most jöhet zene, UI, fade, stb.");
     }
 
     void OnDrawGizmos()
     {
-        Color color = grounded ? new Color(0, 1, 0, 1f) : new Color(1, 0, 0, 1f);
+        Color color = grounded ? new Color(0, 0, 1, 1f) : new Color(1, 0, 0, 1f);
         Gizmos.color = color;
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
         Gizmos.DrawSphere(spherePosition, GroundedRadius);
         
         Gizmos.color = Color.red;
-        Vector3 size = new Vector3(worldLimit * 2, 0.1f, worldLimit * 2);
+        Vector3 size = new Vector3(worldLimit * 2, 0f, worldLimit * 2);
         Gizmos.DrawWireCube(worldCenter, size);
     }
 }

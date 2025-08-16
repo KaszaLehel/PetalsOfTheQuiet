@@ -26,7 +26,7 @@ namespace BKPureNature
 
             particleSystem.GetParticles(particles);
 
-            // Check the particle system’s simulation space
+            // Check the particle systemï¿½s simulation space
             bool isWorldSpace = particleSystem.main.simulationSpace == ParticleSystemSimulationSpace.World;
 
             Vector3 particleSystemPosition = particleSystem.transform.position;

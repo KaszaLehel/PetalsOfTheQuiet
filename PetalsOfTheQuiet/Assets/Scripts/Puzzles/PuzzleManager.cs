@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class PuzzleManager : MonoBehaviour
 {
-
     public static PuzzleManager Instance { get; private set; }
 
     private Dictionary<string, bool> puzzleCompletion = new();
-
     public bool allPuzzleCompleted = false;
 
     void Awake()
@@ -20,36 +18,31 @@ public class PuzzleManager : MonoBehaviour
         {
             Instance = this;
         }
-        //DontDestroyOnLoad(gameObject);
     }
 
     public void PuzzleComplete(string id)
     {
-        if (!puzzleCompletion.ContainsKey(id))
+        if (puzzleCompletion.ContainsKey(id)) return;
+
+        puzzleCompletion.TryAdd(id, true);
+        Debug.Log($"Pizzle completed: {id}");
+
+        /*if (!puzzleCompletion.ContainsKey(id))
         {
             puzzleCompletion.TryAdd(id, true);
-            //puzzleCompletion[id] = true;
             Debug.Log($"Pizzle completed: {id}");
         }
         else
         {
             Debug.Log("Its Already Exist");
-        }
+        }*/
 
         if (puzzleCompletion.Count == 3 && AllPuzzlesAreCompleted())
         {
             allPuzzleCompleted = true;
             Debug.Log("All puzzle is completed!");
         }
-
-        //Csak ellenőrzés listázás hogy melyik van benne.
-        foreach (var kvp in puzzleCompletion)
-        {
-            Debug.Log($"ID: {kvp.Key}, Completed: {kvp.Value}");
-        }
     }
-
-
 
     private bool AllPuzzlesAreCompleted()
     {

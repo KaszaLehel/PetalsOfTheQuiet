@@ -4,10 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class TransitionController : MonoBehaviour
 {
-    public static TransitionController Instance { get; private set; }
     [SerializeField] private Animator transitionAnimator;
     [SerializeField] private GameObject canvas;
 
+    public static TransitionController Instance { get; private set; }
     public bool isTransition = false;
 
     void Awake()
@@ -24,7 +24,7 @@ public class TransitionController : MonoBehaviour
 
     void Start()
     {
-        canvas.SetActive(false);
+        canvas.SetActive(true);
     }
 
     public void NextScene(string sceneName)
@@ -32,7 +32,6 @@ public class TransitionController : MonoBehaviour
         isTransition = true;
         canvas.SetActive(true);
         StartCoroutine(LevelChange(sceneName));
-        //SceneManager.LoadSceneAsync(index);
     }
 
     IEnumerator LevelChange(string name)

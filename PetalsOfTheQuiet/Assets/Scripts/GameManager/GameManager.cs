@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float activateFadeTime = 0.5f;
 
     public static GameManager Instance { get; private set; }
+
     public Dictionary<int, bool> flowerStates = new();
     public bool isEndingMoment = false;
     public bool isSoundOn = false;
@@ -40,7 +42,6 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        //DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -66,19 +67,9 @@ public class GameManager : MonoBehaviour
 
         if (flowerStates.Count == 4 && flowerStates.Values.All(state => state))
         {
-            //Itt nyitom meg a Planting Spotot.
+            //Open up the Planting Spot.
             plantingSpot.SetActive(true);
-
-            if (VFXPrefab != null)
-            {
-                Instantiate(VFXPrefab, plantingSpot.transform.position, plantingSpot.transform.rotation);
-            }
-            else
-            {
-                Debug.LogWarning("Nincs beállítva VFX prefab!");
-            }
-
-            Debug.Log("Minden virag megvan, ultetes aktivalva.");
+            Debug.Log("Every Flower is in the bag, PlantingSpot activated.");
         }
     }
     #endregion
@@ -110,7 +101,19 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadSceneAfterMusic(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        float fiveSec = 5f;
+        yield return new WaitForSeconds(fiveSec);
+        
+        if (VFXPrefab != null)
+        {
+            Instantiate(VFXPrefab, plantingSpot.transform.position, plantingSpot.transform.rotation);
+        }
+        else
+        {
+            Debug.LogWarning("Nincs beállítva VFX prefab!");
+        }
+
+        yield return new WaitForSeconds(delay - fiveSec);
         TransitionController.Instance.NextScene("Menu");
     }
 
@@ -118,7 +121,6 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndingSequence(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        Debug.Log("Wait Time: " + waitTime);
 
         fadeImage.gameObject.SetActive(true);
         endingText.gameObject.SetActive(false);
@@ -127,22 +129,22 @@ public class GameManager : MonoBehaviour
         float endAlpha = 1f;
         float elapsed = 0f;
 
-        Color c = fadeImage.color;
-        c.a = startAlpha;
-        fadeImage.color = c;
+        Color myColor = fadeImage.color;
+        myColor.a = startAlpha;
+        fadeImage.color = myColor;
 
         while (elapsed < fadeDuration)
         {
             elapsed += Time.unscaledDeltaTime;
             float t = elapsed / fadeDuration;
 
-            c.a = Mathf.Lerp(startAlpha, endAlpha, t);
-            fadeImage.color = c;
+            myColor.a = Mathf.Lerp(startAlpha, endAlpha, t);
+            fadeImage.color = myColor;
 
             yield return null;
         }
-        c.a = endAlpha;
-        fadeImage.color = c;
+        myColor.a = endAlpha;
+        fadeImage.color = myColor;
 
         yield return new WaitForSeconds(1.5f);
 

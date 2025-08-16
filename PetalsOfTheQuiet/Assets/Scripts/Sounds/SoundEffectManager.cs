@@ -14,7 +14,6 @@ public class SoundEffectManager : MonoBehaviour
             return;
         }
         Instance = this;
-        //DontDestroyOnLoad(gameObject);
     }
 
 
@@ -25,7 +24,8 @@ public class SoundEffectManager : MonoBehaviour
         audioSource.volume = volume;
         audioSource.Play();
 
-        float clipLength = audioSource.clip.length;
+        //float clipLength = audioSource.clip.length;
+        float clipLength = audioClip.length;
 
         Destroy(audioSource.gameObject, clipLength);
 
@@ -52,7 +52,8 @@ public class SoundEffectManager : MonoBehaviour
 
         audioSource.Play();
 
-        float clipLength = audioSource.clip.length;
+        //float clipLength = audioSource.clip.length;
+        float clipLength = audioClip.length;
 
         Destroy(audioSource.gameObject, clipLength);
     }
@@ -62,7 +63,6 @@ public class SoundEffectManager : MonoBehaviour
         foreach (GameObject ambient in ambientSounds)
         {
             ambient.SetActive(true);
-            Debug.Log(ambient.name);
         }
     }
 }

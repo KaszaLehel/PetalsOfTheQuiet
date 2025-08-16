@@ -34,8 +34,5 @@ public class SpotInteractable : MonoBehaviour, IInteractable
     {
         GameManager.Instance.TriggerEnding(endMusicLength);
         SoundEffectManager.Instance.PlaySoundFXWithDelay(endingMusic, transform, 1f, 2f, null, true);
-
-        
-        //StartCoroutine(EndingSound());
     }
 }

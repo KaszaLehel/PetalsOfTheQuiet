@@ -26,6 +26,7 @@ public class PuzzleTable : MonoBehaviour
                 SoundEffectManager.Instance.PlaySoundFX(metalSoundFX, transform, 1f);
         }
     }
+    
 
     void OnCollisionExit(Collision collision)
     {
@@ -36,26 +37,5 @@ public class PuzzleTable : MonoBehaviour
             parentPuzzle.CheckSolved();
         }
     }
-/*
-    private void OnTriggerEnter(Collider other)
-    {
-        PuzzleCubes cube = other.GetComponent<PuzzleCubes>();
-        if (cube != null && cube.cubeID == expectedCubeID)
-        {
-            isCorrectlyFilled = true;
-            parentPuzzle.CheckSolved();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        PuzzleCubes cube = other.GetComponent<PuzzleCubes>();
-        if (cube != null && cube.cubeID == expectedCubeID)
-        {
-            isCorrectlyFilled = false;
-            parentPuzzle.CheckSolved();
-        }
-    }
-*/
     public bool IsFilledCorrectly() => isCorrectlyFilled;
 }

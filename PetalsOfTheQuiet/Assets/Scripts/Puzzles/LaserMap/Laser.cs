@@ -32,7 +32,7 @@ public class Laser : MonoBehaviour
         lineRenderer.positionCount = 1;
         lineRenderer.SetPosition(0, position);
 
-         Debug.DrawRay(position, direction * 3f, Color.red, 1f);
+        //Debug.DrawRay(position, direction * 3f, Color.red, 1f);
 
         for (int i = 0; i < maxReflections; i++)
         {
@@ -45,7 +45,6 @@ public class Laser : MonoBehaviour
 
                 if (mirror != null)
                 {
-                    //direction = Vector3.Reflect(direction, hit.normal);
                     direction = mirror.transform.forward;
                     position = hit.point;
                     continue;

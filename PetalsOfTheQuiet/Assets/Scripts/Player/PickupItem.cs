@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickupItem : MonoBehaviour
 {
-     [Header("Important")]
+    [Header("Important")]
     [SerializeField] private Camera playerCamera;
 
     [Header("Raycast Settings")]
@@ -27,7 +27,6 @@ public class PickupItem : MonoBehaviour
         None,
         Interact,
         Grab,
-        Paint
     }
 
     void Update()
@@ -125,10 +124,9 @@ public class PickupItem : MonoBehaviour
 
     private void HideCurrentIndicator()
     {
-        if (currentInteractable != null)
-        {
-            currentInteractable.OnFocusExit();
-            currentInteractable = null;
-        }
+        
+        currentInteractable?.OnFocusExit();
+        currentInteractable = null;     //Tiszta állapot a kövi interakcióhoz
+        
     }
 }

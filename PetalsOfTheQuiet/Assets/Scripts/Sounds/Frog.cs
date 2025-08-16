@@ -10,8 +10,6 @@ public class Frog : MonoBehaviour
     private AudioSource audioSource;
     private bool isScared = false;
 
-    //private bool firstTime = false; -> If i will have a voice.
-
     void Start()
     {
         audioSource = GetComponent<AudioSource>();

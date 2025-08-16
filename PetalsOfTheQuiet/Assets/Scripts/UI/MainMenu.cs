@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    //[SerializeField] private Button settingsButton;
     [SerializeField] private GameObject menuButtons;
     [SerializeField] private GameObject credits;
     [SerializeField] private GameObject volmeSettings;
@@ -16,8 +15,6 @@ public class MainMenu : MonoBehaviour
         Cursor.visible = true;
 
         ShowButtons();
-
-        //settingsButton.interactable = false;
     }
 
     public void ShowButtons()

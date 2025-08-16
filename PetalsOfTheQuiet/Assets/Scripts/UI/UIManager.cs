@@ -66,6 +66,5 @@ public class UIManager : MonoBehaviour
     {
         UnpauseExit();
         TransitionController.Instance.NextScene("Menu");
-        //SceneManager.LoadSceneAsync("Menu");
     }
 }
